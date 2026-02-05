@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "209300657129",
+    "project_id": "horas-v3-283fd",
+    "storage_bucket": "horas-v3-283fd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:209300657129:android:71fd31a4dc64a92eb9f178",
+        "android_client_info": {
+          "package_name": "br.com.webevolui.horas.v3.horas_v3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6TcdaTJAew_Hddp-htXVAR0CDfRJ5VmI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:209300657129:android:c00cebbc256524feb9f178",
+        "android_client_info": {
+          "package_name": "br.com.webevolui.horas.v3.rafaela.bauer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6TcdaTJAew_Hddp-htXVAR0CDfRJ5VmI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
