@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:horas_v3/screens/register_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _senhaController = TextEditingController();
-  final TextEditingController _confirmaSenhaController =
-      TextEditingController();
+
   final TextEditingController _nomeController = TextEditingController();
 
   @override
@@ -14,46 +14,61 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       body: Container(
         color: Colors.blue,
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
                 ), // BoxDecoration
                 child: Column(
                   children: [
-                    FlutterLogo(size: 76),
-                    SizedBox(height: 16),
+                    const FlutterLogo(size: 76),
+                    const SizedBox(height: 16),
                     TextField(
                       controller: _nomeController,
-                      decoration: InputDecoration(hintText: 'Nome'),
+                      decoration: const InputDecoration(hintText: 'Nome'),
                     ), // TextField
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     TextField(
                       controller: _emailController,
-                      decoration: InputDecoration(hintText: 'E-mail'),
+                      decoration: const InputDecoration(hintText: 'E-mail'),
                     ), // TextField
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     TextField(
                       obscureText: true,
                       controller: _senhaController,
-                      decoration: InputDecoration(hintText: 'senha'),
+                      decoration: const InputDecoration(hintText: 'Senha'),
                     ), // TextField
-                    SizedBox(height: 16),
-                    TextField(
-                      obscureText: true,
-                      controller: _confirmaSenhaController,
-                      decoration:
-                          InputDecoration(hintText: 'Confirme sua senha'),
+                    const SizedBox(height: 16),
+
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: const Text('Login'),
                     ),
-                    SizedBox(height: 16),
-                    ElevatedButton(onPressed: () {}, child: Text('Cadastrar')),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: const Text('Cadastrar'),
+                    ),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RegisterScreen()),
+                        );
+                      },
+                      child: const Text(
+                        'Esqueci minha senha',
+                      ),
+                    ),
                   ],
                 ),
               )
