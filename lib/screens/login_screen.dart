@@ -66,7 +66,7 @@ class LoginScreen extends StatelessWidget {
                         );
                       },
                       child: const Text(
-                        'Esqueci minha senha',
+                        'Ainda não tem uma conta, crie uma conta',
                       ),
                     ),
                   ],
