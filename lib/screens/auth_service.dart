@@ -3,34 +3,76 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<String?> entrarUsuario(
-      {required String email, required String senha}) async {
+  Future<String?> entrarUsuario({
+    required String email,
+    required String senha,
+  }) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: senha);
+      await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: senha,
+      );
+      return null;
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'user-not-found':
           return 'Usuário não encontrado';
         case 'wrong-password':
           return 'Senha incorreta';
+        default:
+          return e.code;
       }
-
-      return e.code;
     }
-
-    return null;
   }
 
-  Future<String?> cadastrarUsuario({required String email, required String
-  Senha, required String nome}) async{ try {
-    await _auth.createUserWithEmailAndPassword(email: email, password:
-  Senha;
-  } on FirebaseAuthExeption catch (e) {
-    switch(e.code) {
-      case 'weak-password':
-        return 'Senha fraca';
-      case 'email-already-in-use':
-        return 'Email já existe';
-    }}return null}
+  Future<String?> cadastrarUsuario({
+    required String email,
+    required String senha,
+    required String nome,
+  }) async {
+    try {
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: senha,
+      );
+
+      await userCredential.user!.updateDisplayName(nome);
+      return null;
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case 'email-already-in-use':
+          return 'Email já está em uso';
+        case 'weak-password':
+          return 'Senha fraca';
+        default:
+          return e.code;
+      }
+    }
+  }
+
+  Future<String?> redefinicaoSenha({required String email}) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      return null;
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case 'user-not-found':
+          return 'Usuário não encontrado';
+        default:
+          return e.code;
+      }
+    }
+  }
+
+  Future<String?> deslogar() async {
+    try {
+      await _auth.signInWithEmailAndPassword(
+          email: _auth.currentUser!.email!, password: 'senha');
+      await _auth.currentUser!.delete();
+    } on FirebaseAuthException catch (e) {
+      return e.code;
+    }
+    return null;
   }
 }

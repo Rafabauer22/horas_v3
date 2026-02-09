@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:horas_v3/screens/auth_service.dart';
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
@@ -8,6 +9,8 @@ class RegisterScreen extends StatelessWidget {
   final TextEditingController _confirmaSenhaController =
       TextEditingController();
   final TextEditingController _nomeController = TextEditingController();
+
+  AuthService authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
