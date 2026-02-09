@@ -56,7 +56,16 @@ class RegisterScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(
-                        onPressed: () {}, child: const Text('Cadastrar')),
+                        onPressed: () {
+                          if (_senhaController.text ==
+                              _confirmaSenhaController.text) {
+                            authService.cadastrarUsuario(
+                                email: _emailController.text,
+                                senha: _senhaController.text,
+                                nome: _nomeController.text);
+                          }
+                        },
+                        child: const Text('Cadastrar')),
                     const SizedBox(height: 16),
                   ],
                 ),

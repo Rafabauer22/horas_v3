@@ -53,12 +53,15 @@ class LoginScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(
-                      onPressed: () {},
-                      child: const Text('Cadastrar'),
+                      onPressed: () {
+                        print('clicou em ir para entrar com google');
+                      },
+                      child: const Text('Entrar com Google'),
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(
                       onPressed: () {
+                        print('clicou em ir para register screen');
                         Navigator.push(
                           context,
                           MaterialPageRoute(
