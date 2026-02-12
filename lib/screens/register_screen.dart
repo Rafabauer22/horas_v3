@@ -27,7 +27,7 @@ class RegisterScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
-                ), // BoxDecoration
+                ),
                 child: Column(
                   children: [
                     const FlutterLogo(size: 76),
@@ -35,41 +35,66 @@ class RegisterScreen extends StatelessWidget {
                     TextField(
                       controller: _nomeController,
                       decoration: const InputDecoration(hintText: 'Nome'),
-                    ), // TextField
+                    ),
                     const SizedBox(height: 16),
                     TextField(
                       controller: _emailController,
                       decoration: const InputDecoration(hintText: 'E-mail'),
-                    ), // TextField
+                    ),
                     const SizedBox(height: 16),
                     TextField(
                       obscureText: true,
                       controller: _senhaController,
-                      decoration: const InputDecoration(hintText: 'senha'),
-                    ), // TextField
+                      decoration: const InputDecoration(hintText: 'Senha'),
+                    ),
                     const SizedBox(height: 16),
                     TextField(
                       obscureText: true,
                       controller: _confirmaSenhaController,
-                      decoration:
-                          const InputDecoration(hintText: 'Confirme sua senha'),
+                      decoration: const InputDecoration(
+                        hintText: 'Confirme sua senha',
+                      ),
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(
-                        onPressed: () {
-                          if (_senhaController.text ==
-                              _confirmaSenhaController.text) {
-                            authService.cadastrarUsuario(
-                                email: _emailController.text,
-                                senha: _senhaController.text,
-                                nome: _nomeController.text);
-                          }
-                        },
-                        child: const Text('Cadastrar')),
+                      onPressed: () {
+                        if (_senhaController.text ==
+                            _confirmaSenhaController.text) {
+                          authService
+                              .cadastrarUsuario(
+                            email: _emailController.text,
+                            senha: _senhaController.text,
+                            nome: _nomeController.text,
+                          )
+                              .then((String? erro) {
+                            if (!context.mounted) return;
+
+                            if (erro != null) {
+                              final snackBar = SnackBar(
+                                content: Text(erro),
+                                backgroundColor: Colors.red,
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            } else {
+                              Navigator.pop(context);
+                            }
+                          });
+                        } else {
+                          const snackBar = SnackBar(
+                            content: Text('As senhas são correspondem'),
+                            backgroundColor: Colors.red,
+                          );
+
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
+                      },
+                      child: const Text('Cadastrar'),
+                    ),
                     const SizedBox(height: 16),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

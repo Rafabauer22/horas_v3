@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:horas_v3/firebase_options.dart';
+import 'package:horas_v3/screens/home_screen.dart';
 import 'package:horas_v3/screens/login_screen.dart';
 
 void main() async {
@@ -17,13 +19,38 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Horas V3',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        primarySwatch: Colors.blue,
         useMaterial3: true,
       ),
-      home: LoginScreen(),
+      home: const RoteadorTelas(),
     );
+  }
+}
+
+class RoteadorTelas extends StatelessWidget {
+  const RoteadorTelas({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+        stream: FirebaseAuth.instance.userChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            if (snapshot.hasData) {
+              return const HomeScreen(
+                user: null,
+              );
+            } else {
+              return LoginScreen();
+            }
+          }
+        });
   }
 }
