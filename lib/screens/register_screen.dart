@@ -9,8 +9,7 @@ class RegisterScreen extends StatelessWidget {
   final TextEditingController _confirmaSenhaController =
       TextEditingController();
   final TextEditingController _nomeController = TextEditingController();
-
-  AuthService authService = AuthService();
+  final AuthService authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
