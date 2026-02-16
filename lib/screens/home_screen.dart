@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:horas_v3/components/menu.dart';
 import 'package:horas_v3/models/hour.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:uuid/uuid.dart';
 
 class HomeScreen extends StatefulWidget {
   final dynamic user;
@@ -71,7 +72,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Column(
                         children: [
                           ListTile(
-                            onLongPress: () {},
+                            onLongPress: () {
+                              showFormModal(model: model);
+                            },
                             onTap: () {},
                             leading: const Icon(
                               Icons.list_alt_rounded,
@@ -178,6 +181,22 @@ class _HomeScreenState extends State<HomeScreen> {
                           minutos: HourHelper.hoursToMinutos(
                             minutosController.text,
                           ));
+
+                      if (descricaoController.text != "") {
+                        hour.descricao = descricaoController.text;
+                      }
+                      if (model != null) {
+                        hour.id = model.id;
+                      }
+
+                      firestore
+                          .collection(widget.user.uid)
+                          .doc(hour.id)
+                          .set(hour.toMap());
+
+                      refresh();
+
+                      Navigator.pop(context);
                     },
                     child: Text(confirmationButton),
                   )
@@ -191,5 +210,22 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void remove(Hour model) {}
+  void remove(Hour model) {
+    firestore.collection(widget.user.uid).doc(model.id).delete();
+    refresh();
+  }
+
+  Future<void> refresh() async {
+    // double total = 0;
+    List<Hour> temp = [];
+
+    QuerySnapshot<Map<String, dynamic>> snapshot =
+        await firestore.collection(widget.user.uid).get();
+    for (var doc in snapshot.docs) {
+      temp.add(Hour.fromMap(doc.data()));
+    }
+    setState(() {
+      listHours = temp;
+    });
+  }
 }

@@ -9,6 +9,7 @@ class RegisterScreen extends StatelessWidget {
   final TextEditingController _confirmaSenhaController =
       TextEditingController();
   final TextEditingController _nomeController = TextEditingController();
+
   final AuthService authService = AuthService();
 
   @override
@@ -29,12 +30,6 @@ class RegisterScreen extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    const FlutterLogo(size: 76),
-                    const SizedBox(height: 16),
-                    TextField(
-                      controller: _nomeController,
-                      decoration: const InputDecoration(hintText: 'Nome'),
-                    ),
                     const SizedBox(height: 16),
                     TextField(
                       controller: _emailController,
@@ -81,7 +76,7 @@ class RegisterScreen extends StatelessWidget {
                           });
                         } else {
                           const snackBar = SnackBar(
-                            content: Text('As senhas são correspondem'),
+                            content: Text('As senhas não correspondem'),
                             backgroundColor: Colors.red,
                           );
 

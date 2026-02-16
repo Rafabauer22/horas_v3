@@ -6,7 +6,6 @@ class LoginScreen extends StatelessWidget {
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _senhaController = TextEditingController();
-
   final TextEditingController _nomeController = TextEditingController();
 
   @override
@@ -24,32 +23,23 @@ class LoginScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
-                ), // BoxDecoration
+                ),
                 child: Column(
                   children: [
-                    const FlutterLogo(size: 76),
-                    const SizedBox(height: 16),
-                    TextField(
-                      controller: _nomeController,
-                      decoration: const InputDecoration(hintText: 'Nome'),
-                    ), // TextField
-                    const SizedBox(height: 16),
                     TextField(
                       controller: _emailController,
                       decoration: const InputDecoration(hintText: 'E-mail'),
-                    ), // TextField
+                    ),
                     const SizedBox(height: 16),
                     TextField(
                       obscureText: true,
                       controller: _senhaController,
                       decoration: const InputDecoration(hintText: 'Senha'),
-                    ), // TextField
-                    const SizedBox(height: 16),
-
+                    ),
                     const SizedBox(height: 16),
                     ElevatedButton(
                       onPressed: () {},
-                      child: const Text('Login'),
+                      child: const Text('Entrar'),
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(
@@ -65,7 +55,8 @@ class LoginScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => RegisterScreen()),
+                            builder: (context) => RegisterScreen(),
+                          ),
                         );
                       },
                       child: const Text(
@@ -74,7 +65,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),
