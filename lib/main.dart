@@ -44,8 +44,9 @@ class RoteadorTelas extends StatelessWidget {
             );
           } else {
             if (snapshot.hasData) {
-              return const HomeScreen(
-                user: null,
+              final user = snapshot.data!;
+              return HomeScreen(
+                user: user,
               );
             } else {
               return LoginScreen();
