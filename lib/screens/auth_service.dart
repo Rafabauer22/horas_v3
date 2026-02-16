@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -65,14 +66,14 @@ class AuthService {
     }
   }
 
-  Future<String?> deslogar() async {
+  Future<bool> deslogar() async {
     try {
-      await _auth.signInWithEmailAndPassword(
-          email: _auth.currentUser!.email!, password: 'senha');
-      await _auth.currentUser!.delete();
+      await _auth.signOut();
+      return true;
     } on FirebaseAuthException catch (e) {
-      return e.code;
+      debugPrint('Error on deslogar $e');
+      return false;
     }
-    return null;
+    return false;
   }
 }
