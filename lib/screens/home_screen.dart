@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:horas_v3/components/menu.dart';
+import 'package:horas_v3/helpers/hour_helpers.dart';
 import 'package:horas_v3/models/hour.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:uuid/uuid.dart';
@@ -17,8 +18,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<Hour> listHours = [];
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-  var HourHelper;
 
   @override
   void initState() {
@@ -81,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               size: 56,
                             ),
                             title: Text(
-                              "Data: ${model.data} hora ${HourHelper.minutesTohours(model.minutos)}",
+                              "Data: ${model.data} hora ${HourHelpers.minutesTohours(model.minutos)}",
                             ),
                             subtitle: Text(model.descricao ?? ""),
                           )
@@ -111,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (model != null) {
       title = "Editando";
       dataController.text = model.data;
-      minutosController.text = HourHelper.minutesTohours(model.minutos);
+      minutosController.text = HourHelpers.minutesTohours(model.minutos);
       if (model.descricao != null) {
         descricaoController.text = model.descricao!;
       }
@@ -178,7 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Hour hour = Hour(
                           id: const Uuid().v1(),
                           data: dataController.text,
-                          minutos: HourHelper.hoursToMinutos(
+                          minutos: HourHelpers.hoursToMinutos(
                             minutosController.text,
                           ));
 
