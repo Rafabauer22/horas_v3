@@ -21,7 +21,7 @@ class AuthService {
         case 'wrong-password':
           return 'Senha incorreta';
         default:
-          return e.code;
+          return e.message;
       }
     }
   }
@@ -47,7 +47,7 @@ class AuthService {
         case 'weak-password':
           return 'Senha fraca';
         default:
-          return e.code;
+          return e.message;
       }
     }
   }
@@ -61,7 +61,7 @@ class AuthService {
         case 'user-not-found':
           return 'Usuário não encontrado';
         default:
-          return e.code;
+          return e.message;
       }
     }
   }
@@ -70,10 +70,34 @@ class AuthService {
     try {
       await _auth.signOut();
       return true;
-    } on FirebaseAuthException catch (e) {
-      debugPrint('Error on deslogar $e');
+    } catch (e) {
+      debugPrint('Erro ao deslogar $e');
       return false;
     }
-    return false;
+  }
+
+  Future<String?> excluirConta({required String senha}) async {
+    try {
+      User? user = _auth.currentUser;
+
+      if (user == null) {
+        return 'Usuário não está logado';
+      }
+
+      // Reautenticar
+      AuthCredential credential = EmailAuthProvider.credential(
+        email: user.email!,
+        password: senha,
+      );
+
+      await user.reauthenticateWithCredential(credential);
+
+      // Deletar conta
+      await user.delete();
+
+      return null;
+    } on FirebaseAuthException catch (e) {
+      return e.message;
+    }
   }
 }

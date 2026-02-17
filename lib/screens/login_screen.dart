@@ -1,11 +1,17 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:horas_v3/screens/auth_service.dart';
 import 'package:horas_v3/screens/register_screen.dart';
+import 'package:horas_v3/screens/reset_password_modal.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _senhaController = TextEditingController();
+
+  final AuthService authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -24,33 +30,65 @@ class LoginScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     TextField(
                       controller: _emailController,
-                      decoration: const InputDecoration(hintText: 'E-mail'),
+                      decoration: const InputDecoration(
+                        hintText: 'E-mail',
+                      ),
                     ),
                     const SizedBox(height: 16),
                     TextField(
                       obscureText: true,
                       controller: _senhaController,
-                      decoration: const InputDecoration(hintText: 'Senha'),
+                      decoration: const InputDecoration(
+                        hintText: 'Senha',
+                      ),
                     ),
                     const SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: const Text('Entrar'),
-                    ),
-                    const SizedBox(height: 16),
+
+                    /// BOTÃO ENTRAR
                     ElevatedButton(
                       onPressed: () {
+                        authService
+                            .entrarUsuario(
+                          email: _emailController.text,
+                          senha: _senhaController.text,
+                        )
+                            .then((String? erro) {
+                          if (!context.mounted) return;
+
+                          if (erro != null) {
+                            final snackBar = SnackBar(
+                              content: Text(erro),
+                              backgroundColor: Colors.red,
+                            );
+
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          }
+                        });
+                      },
+                      child: const Text('Entrar'),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    /// BOTÃO GOOGLE
+                    ElevatedButton(
+                      onPressed: () {
+                        singinWithGoogle();
                         print('clicou em ir para entrar com google');
                       },
                       child: const Text('Entrar com Google'),
                     ),
+
                     const SizedBox(height: 16),
+
+                    /// BOTÃO IR PARA CADASTRO
                     ElevatedButton(
                       onPressed: () {
-                        print('clicou em ir para register screen');
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -59,8 +97,22 @@ class LoginScreen extends StatelessWidget {
                         );
                       },
                       child: const Text(
-                        'Ainda não tem uma conta, crie uma conta',
+                        'Ainda não tem uma conta? Crie uma conta',
                       ),
+                    ),
+
+                    const SizedBox(height: 8),
+
+                    /// ESQUECEU SENHA
+                    TextButton(
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return PasswordresetModal();
+                            });
+                      },
+                      child: const Text('Esqueceu sua senha?'),
                     ),
                   ],
                 ),
@@ -70,5 +122,26 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<UserCredential?> singinWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      if (googleUser == null) return null;
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      return await FirebaseAuth.instance.signInWithCredential(credential);
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 }

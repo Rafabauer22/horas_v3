@@ -1,0 +1,39 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Flutter Web (Chrome)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "deviceId": "chrome",
+      "args": [
+        "-d",
+        "chrome"
+      ]
+    },
+    {
+      "name": "Flutter Web (Edge)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "deviceId": "edge",
+      "args": [
+        "-d",
+        "edge"
+      ]
+    },
+    {
+      "name": "Flutter Web (Release)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "deviceId": "chrome",
+      "args": [
+        "-d",
+        "chrome",
+        "--release"
+      ]
+    }
+  ]
+}
