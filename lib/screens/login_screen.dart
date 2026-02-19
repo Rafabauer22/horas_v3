@@ -121,7 +121,10 @@ class LoginScreen extends StatelessWidget {
   }
 
   Future<UserCredential> singinWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    final GoogleSignInAccount? googleUser = await GoogleSignIn(
+            clientId:
+                '209300657129-87v0pf0bqkndfhtdn262ueghfbb1qlli.apps.googleusercontent.com')
+        .signIn();
 
     final GoogleSignInAuthentication googleAuth =
         await googleUser!.authentication;
