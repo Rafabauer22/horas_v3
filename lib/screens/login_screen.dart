@@ -72,14 +72,10 @@ class LoginScreen extends StatelessWidget {
                       },
                       child: const Text('Entrar'),
                     ),
-
                     const SizedBox(height: 16),
-
-                    /// BOTÃO GOOGLE
                     ElevatedButton(
                       onPressed: () {
                         singinWithGoogle();
-                        print('clicou em ir para entrar com google');
                       },
                       child: const Text('Entrar com Google'),
                     ),
@@ -109,7 +105,7 @@ class LoginScreen extends StatelessWidget {
                         showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return PasswordresetModal();
+                              return const PasswordresetModal();
                             });
                       },
                       child: const Text('Esqueceu sua senha?'),
@@ -124,24 +120,17 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Future<UserCredential?> singinWithGoogle() async {
-    try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  Future<UserCredential> singinWithGoogle() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-      if (googleUser == null) return null;
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser!.authentication;
 
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
 
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-
-      return await FirebaseAuth.instance.signInWithCredential(credential);
-    } catch (e) {
-      print(e);
-      return null;
-    }
+    return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 }

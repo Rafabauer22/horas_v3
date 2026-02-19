@@ -28,9 +28,7 @@ class Menu extends StatelessWidget {
             leading: const Icon(Icons.logout),
             title: const Text('Sair'),
             onTap: () async {
-              final status = await AuthService().deslogar();
-
-              print('sair');
+              await AuthService().deslogar();
             },
           )
         ],
